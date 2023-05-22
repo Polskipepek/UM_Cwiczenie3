@@ -1,15 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using UM_Cwiczenie3.ML.Clustering.Model;
-using UM_Cwiczenie3.ML.Sentiments.Model;
-
 Console.WriteLine("Hello, World!");
 Console.WriteLine("Select classification type:");
 
 MLContext mlContext = new();
 
 while (true) {
-    FunctionType function = (FunctionType)BetterInput.GetKeyNumber("1. Binary Classification\r\n2. Clustering", 1, 2);
+    FunctionType function = (FunctionType)BetterInput.GetKeyNumber("1. Binary Classification\r\n2. Clustering\r\n3. DBSCAN", 1, 3);
 
     switch (function) {
         case FunctionType.Sentiment:
@@ -39,16 +36,32 @@ while (true) {
             }
             break;
 
+        case FunctionType.DBSCAN:
+            DbScanAnalyzer dbScanAnalyzer = new();
+
+            model = CreateDBSCANModel(dbScanAnalyzer, out TrainTestData data);
+
+            var clusters = dbScanAnalyzer.GetClusters(mlContext, model, data.TrainSet);
+            dbScanAnalyzer.PrintPredictions(clusters);
+
+            break;
         default:
             break;
     };
+}
+
+ITransformer CreateDBSCANModel(DbScanAnalyzer dbScanAnalyzer, out TrainTestData data) {
+    string dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "DbScan", "DBSCAN_MOCK_DATA.csv");
+    data = DataLoader.LoadData<DbScanDataPoint>(mlContext, dataPath, hasHeader: false, separatorChar: ',');
+
+    return dbScanAnalyzer.BuildModel(mlContext, data.TrainSet);
 }
 
 static ITransformer CreateSentimentModel(MLContext mlContext, SentimentAnalyzer sentimentAnalyzer) {
     SentimentType sentimentType = (SentimentType)BetterInput.GetKeyNumber("1. Amazon Cells\r\n2. IMDB\r\n3. Yelp", 1, 3) - 1;
     string dataPath = Path.Combine(Environment.CurrentDirectory, "Data", "Sentiment", $"{sentimentType}.txt");
 
-    return sentimentAnalyzer.BuildBinaryAnalyzerModel(mlContext, dataPath);
+    return sentimentAnalyzer.BuildModel(mlContext, dataPath);
 }
 
 static ITransformer CreateClusteringModel(MLContext mlContext, ClusteringAnalyzer clusteringAnalyzer) {

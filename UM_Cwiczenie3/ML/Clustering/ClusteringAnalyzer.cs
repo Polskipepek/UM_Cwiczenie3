@@ -1,21 +1,20 @@
-﻿using UM_Cwiczenie3.ML.Clustering.Model;
-
-namespace UM_Cwiczenie3.ML.Clustering {
+﻿namespace UM_Cwiczenie3.ML.Clustering {
     internal class ClusteringAnalyzer {
         public ITransformer TrainModel(MLContext mlContext, string dataPath, string modelPath) {
-            IDataView dataView = mlContext.Data.LoadFromTextFile<IrisData>(dataPath, hasHeader: false, separatorChar: ',');
+            TrainTestData dataView = DataLoader.LoadData<IrisData>(mlContext, dataPath, hasHeader: false, separatorChar: ',');
+
             string featuresColumnName = "Features";
             var pipeline = mlContext.Transforms
                 .Concatenate(featuresColumnName, "SepalLength", "SepalWidth", "PetalLength", "PetalWidth")
                 .Append(mlContext.Clustering.Trainers.KMeans(featuresColumnName, numberOfClusters: 3));
 
-            var model = pipeline.Fit(dataView);
+            var model = pipeline.Fit(dataView.TrainSet);
 
             using (FileStream fileStream = new(modelPath, FileMode.Create, FileAccess.Write, FileShare.Write)) {
-                mlContext.Model.Save(model, dataView.Schema, fileStream);
+                mlContext.Model.Save(model, dataView.TrainSet.Schema, fileStream);
             }
 
-            var clusters = CalculateClusters(mlContext, model.Transform(dataView));
+            var clusters = CalculateClusters(mlContext, model.Transform(dataView.TrainSet));
             PrintClustersDetails(clusters);
 
             return model;

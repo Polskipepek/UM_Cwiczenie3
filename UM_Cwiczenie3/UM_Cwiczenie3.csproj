@@ -18,6 +18,9 @@
     <None Update="Data\Clustering\sentiment labelled sentences.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\DbScan\DBSCAN_MOCK_DATA.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Sentiment\amazon_cells_labelled.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

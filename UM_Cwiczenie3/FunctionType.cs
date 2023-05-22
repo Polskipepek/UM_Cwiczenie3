@@ -2,4 +2,5 @@
 internal enum FunctionType {
     Sentiment = 1,
     Clustering = 2,
+    DBSCAN = 3,
 }

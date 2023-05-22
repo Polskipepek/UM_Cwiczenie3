@@ -1,14 +1,5 @@
-﻿using UM_Cwiczenie3.ML.Sentiments.Model;
-
-namespace UM_Cwiczenie3.ML.Sentiments;
+﻿namespace UM_Cwiczenie3.ML.Sentiments;
 internal class SentimentAnalyzer {
-
-    public ITransformer BuildAndTrainModel(MLContext mlContext, IDataView trainSet) {
-        var estimator = mlContext.Transforms.Text.FeaturizeText(outputColumnName: "Features", inputColumnName: nameof(SentimentData.SentimentText))
-            .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: "Label", featureColumnName: "Features")).Fit(trainSet);
-        return estimator;
-    }
-
     public CalibratedBinaryClassificationMetrics Evaluate(MLContext mlContext, ITransformer model, IDataView splitTestSet) {
         var predictions = model.Transform(splitTestSet);
         CalibratedBinaryClassificationMetrics metrics = mlContext.BinaryClassification.Evaluate(predictions);
@@ -33,12 +24,20 @@ internal class SentimentAnalyzer {
         return predictedResults;
     }
 
-    public ITransformer BuildBinaryAnalyzerModel(MLContext mlContext, string dataPath) {
+    public ITransformer BuildModel(MLContext mlContext, string dataPath) {
         TrainTestData splitDataView = DataLoader.LoadData<SentimentData>(mlContext, dataPath, hasHeader: false, separatorChar: '\t');
         ITransformer model = BuildAndTrainModel(mlContext, splitDataView.TrainSet);
         var metrics = Evaluate(mlContext, model, splitDataView.TestSet);
         PrintMetrics(metrics);
         return model;
+    }
+
+    private ITransformer BuildAndTrainModel(MLContext mlContext, IDataView trainSet) {
+        var estimator = mlContext.Transforms.Text
+            .FeaturizeText(outputColumnName: "Features", inputColumnName: nameof(SentimentData.SentimentText))
+            .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: "Label", featureColumnName: "Features"))
+            .Fit(trainSet);
+        return estimator;
     }
 
     private void PrintMetrics(CalibratedBinaryClassificationMetrics metrics) {

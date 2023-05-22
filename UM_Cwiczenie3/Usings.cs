@@ -2,5 +2,9 @@
 global using Microsoft.ML.Data;
 global using UM_Cwiczenie3;
 global using UM_Cwiczenie3.ML.Clustering;
+global using UM_Cwiczenie3.ML.Clustering.Model;
+global using UM_Cwiczenie3.ML.DbScan;
+global using UM_Cwiczenie3.ML.DbScan.Model;
 global using UM_Cwiczenie3.ML.Sentiments;
+global using UM_Cwiczenie3.ML.Sentiments.Model;
 global using static Microsoft.ML.DataOperationsCatalog;
