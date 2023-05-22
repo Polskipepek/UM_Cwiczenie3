@@ -1,4 +1,4 @@
-﻿namespace UM3.ML.Sentiments;
+﻿namespace UM_Cwiczenie3.ML.Sentiments;
 
 internal enum SentimentType {
     yelp_labelled,
