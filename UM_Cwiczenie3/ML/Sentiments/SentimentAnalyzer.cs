@@ -1,4 +1,6 @@
-﻿namespace UM_Cwiczenie3.ML.Sentiments;
+﻿using UM_Cwiczenie3.ML.Sentiments.Model;
+
+namespace UM_Cwiczenie3.ML.Sentiments;
 internal class SentimentAnalyzer {
 
     public ITransformer BuildAndTrainModel(MLContext mlContext, IDataView trainSet) {

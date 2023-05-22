@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using UM_Cwiczenie3.ML.Clustering.Model;
+using UM_Cwiczenie3.ML.Sentiments.Model;
+
 Console.WriteLine("Hello, World!");
 Console.WriteLine("Select classification type:");
 

@@ -1,4 +1,4 @@
-﻿namespace UM_Cwiczenie3.ML.Clustering;
+﻿namespace UM_Cwiczenie3.ML.Clustering.Model;
 internal class ClusterDetails {
     [ColumnName("PredictedLabel")]
     public uint PredictedClusterId;

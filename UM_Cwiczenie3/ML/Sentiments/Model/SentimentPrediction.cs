@@ -1,4 +1,4 @@
-﻿namespace UM_Cwiczenie3.ML.Sentiments;
+﻿namespace UM_Cwiczenie3.ML.Sentiments.Model;
 
 public class SentimentPrediction : SentimentData {
 

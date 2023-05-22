@@ -1,4 +1,4 @@
-﻿namespace UM_Cwiczenie3.ML.Clustering {
+﻿namespace UM_Cwiczenie3.ML.Clustering.Model {
     internal class IrisData {
         [LoadColumn(0)]
         public float SepalLength;

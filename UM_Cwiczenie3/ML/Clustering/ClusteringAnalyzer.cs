@@ -1,4 +1,6 @@
-﻿namespace UM_Cwiczenie3.ML.Clustering {
+﻿using UM_Cwiczenie3.ML.Clustering.Model;
+
+namespace UM_Cwiczenie3.ML.Clustering {
     internal class ClusteringAnalyzer {
         public ITransformer TrainModel(MLContext mlContext, string dataPath, string modelPath) {
             IDataView dataView = mlContext.Data.LoadFromTextFile<IrisData>(dataPath, hasHeader: false, separatorChar: ',');
