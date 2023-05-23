@@ -3,10 +3,12 @@
         public ITransformer TrainModel(MLContext mlContext, string dataPath, string modelPath) {
             TrainTestData dataView = DataLoader.LoadData<IrisData>(mlContext, dataPath, hasHeader: false, separatorChar: ',');
 
+            int numberOfClusters = BetterInput.GetInputNumberSameLine("Number of clusters (K)", 1, 100);
+
             string featuresColumnName = "Features";
             var pipeline = mlContext.Transforms
                 .Concatenate(featuresColumnName, "SepalLength", "SepalWidth", "PetalLength", "PetalWidth")
-                .Append(mlContext.Clustering.Trainers.KMeans(featuresColumnName, numberOfClusters: 3));
+                .Append(mlContext.Clustering.Trainers.KMeans(featuresColumnName, numberOfClusters: numberOfClusters));
 
             var model = pipeline.Fit(dataView.TrainSet);
 

@@ -12,6 +12,20 @@ internal static class BetterInput {
         return numRow;
     }
 
+    public static int GetInputNumberSameLine(string title, int min, int max, bool clearAfter = true)
+    {
+        int numRow = -1;
+        Console.Write($"{title}: ");
+        while (!int.TryParse(Console.ReadLine(), out numRow) || numRow < min || numRow > max)
+        {
+            Console.Clear();
+            Console.WriteLine("You entered an invalid number");
+            Console.Write(title);
+        }
+        if (clearAfter) Console.Clear();
+        return numRow;
+    }
+
     public static int GetKeyNumber(string title, int min, int max, bool clearAfter = true) {
         int numRow = -1;
         Console.WriteLine(title);
