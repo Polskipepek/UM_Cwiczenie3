@@ -1,10 +1,13 @@
 ﻿namespace UM_Cwiczenie3.ML.DbScan.Model;
 internal class DbScanDataPoint {
-    [LoadColumn(0, 1)]
-    [VectorType(2)]
-    public float[] Features { get; set; }
+    public double[] Features { get; set; }
+    public int ClusterId;
 
-    [LoadColumn(2)]
-    [KeyType(count: 11)]
-    public uint Label { get; set; }
+    public override string ToString()
+    {
+        string result = "[";
+        foreach (double value in Features) result += $"{value}; ";
+        if(result.Length>2) result=result.Substring(0,result.Length-2);
+        return result + "]";
+    }
 }

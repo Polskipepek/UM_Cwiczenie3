@@ -75,6 +75,20 @@ internal static class BetterInput {
         return numRow;
     }
 
+    public static double GetDoubleSameLine(string title, double min, double max, bool clearAfter = true)
+    {
+        double numRow = -1;
+        Console.Write($"{title}: ");
+        while (!double.TryParse(Console.ReadLine(), out numRow) || numRow < min || numRow > max)
+        {
+            Console.Clear();
+            Console.WriteLine("You entered an invalid number");
+            Console.Write(title);
+        }
+        if (clearAfter) Console.Clear();
+        return numRow;
+    }
+
     public static string GetReadLine(string title, int minLength = 1) {
         Console.Write($"{title}: ");
         string value = "";
